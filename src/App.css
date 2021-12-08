@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  width: 350px;
+  height: 350px;
+  /* margin: 0 auto; */
 }
 
 .App-logo {
@@ -35,4 +38,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.hand-pointer{
+  cursor: pointer;
+}
+
+.three-js-canvas{
+  background-color: #000;
 }
