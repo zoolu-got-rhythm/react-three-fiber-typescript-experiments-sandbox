@@ -34,8 +34,6 @@ function App() {
           const to = fromToArr[1];
           return <Line from={[from.x,from.y,0]} to={[to.x,to.y,0]} color="lime" />
         })}
-        /* <Line from={[-4,0,0]} to={[4,0,0]} color="lime" />
-        <Line from={[0,-4,0]} to={[0,4,0]} color="lime" /> */
       </Canvas>
     </div>
   );
