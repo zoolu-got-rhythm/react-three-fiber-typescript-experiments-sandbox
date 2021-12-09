@@ -23,8 +23,8 @@ function App() {
       <Canvas className="three-js-canvas" camera={{position: new THREE.Vector3(0,0,8)}}> 
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
-        <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} />
+        {/* <Box position={[-1.2, 0, 0]} />
+        <Box position={[1.2, 0, 0]} /> */}
         {xyPointsHorizontal.map(fromToArr => {
           const from = fromToArr[0];
           const to = fromToArr[1];
@@ -36,7 +36,9 @@ function App() {
           return <Line from={[from.x,from.y,0]} to={[to.x,to.y,0]} color="lime" />
         })}
 
-        <MovingBox position={[1.5,1.5,0]} moveDistance={1} directions={["up","down","up","down","down", "left"]}/>
+        <MovingBox position={[1.5,1.5,0]} moveDistance={1} directions={["left", "left","up","down","left","down", "left"]}/>
+        <MovingBox position={[3.5,3.5,0]} moveDistance={1} directions={["left", "left","up","down","left","down", "left"]}/>
+
       </Canvas>
     </div>
   );

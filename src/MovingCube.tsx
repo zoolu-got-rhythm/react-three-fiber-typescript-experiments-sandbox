@@ -21,6 +21,8 @@ export function MovingBox(props: Props) {
         down: new THREE.Vector3(0, -props.moveDistance, 0)
     }
 
+    // console.log("rerender");
+
     const ref = useRef<THREE.Mesh>(null!)
     const [rotate90, shouldRotate90] = useState(false);
     const [moving, setIsMoving] = useState<boolean>(false);
@@ -28,29 +30,42 @@ export function MovingBox(props: Props) {
     // @ts-ignore
     const [destVectorPos, setDestVectorPos] = useState<THREE.Vector3>(new THREE.Vector3(...props.position));
     const [tick, setTick] = useState<number>(0);
+    const [currentRotation, setCurrentRotation] = useState<number>(0);
+    const [currentDirection, setCurrentDirection] = useState<string | null>(null);
     
     useEffect(() => {
     }, []);
 
     useFrame((state, delta) => {
+        // @ts-ignore
+        state.someVal = 2;
         // console.log(state);
         // rotate render loop logic
         if(rotate90 == true){
-            if(ref.current.rotation.x >= (Math.PI * 2) / 4){
+            if(currentRotation >= (Math.PI * 2) / 4){
                 shouldRotate90(false);
                 ref.current.rotation.x = 0;
+                ref.current.rotation.y = 0;
+
+                setCurrentRotation(0);
             }else{
-                const currentRotation = ((Math.PI * 2) / 4) / 20; // in radians
-                ref.current.rotation.x += currentRotation;
-                // if(props.directions.length > 0)
-                //     switch(props.directions[0].toLowerCase()){
-                //         case "down" : 
-                //             ref.current.rotation.x += currentRotation;
-                //             break;
-                //         case "up" : 
-                //             ref.current.rotation.x += -currentRotation;
-                //             break;
-                //     }
+                setCurrentRotation(currentRotation + (((Math.PI * 2) / 4) / 20)); // in radians
+                // ref.current.rotation.x = currentRotation;
+                if(currentDirection)
+                    switch(currentDirection){
+                        case "up" : 
+                            ref.current.rotation.x = -currentRotation;
+                            break;
+                        case "down" : 
+                            ref.current.rotation.x = currentRotation;
+                            break;
+                        case "left" : 
+                            ref.current.rotation.y = -currentRotation;
+                            break;
+                        case "right" : 
+                            ref.current.rotation.y = currentRotation;
+                            break;
+                    }
                 
             }
         }
@@ -61,8 +76,14 @@ export function MovingBox(props: Props) {
             
             let temp = new THREE.Vector3(0,0,0);
             temp.copy(prevVectorPos);
+
             // @ts-ignore
-            temp.add(directionsToVectorMap[props.directions.shift()?.toLowerCase()]);
+            let dir: str = props.directions.shift()?.toLowerCase();
+            setCurrentDirection(dir);
+            console.log(currentDirection);
+
+            // @ts-ignore
+            temp.add(directionsToVectorMap[dir]);
             
             setDestVectorPos(destVectorPos.copy(temp)); // slow to update? or isn't being logged properly?
             setIsMoving(true);
@@ -74,6 +95,7 @@ export function MovingBox(props: Props) {
             }else{
                 setIsMoving(false);
                 setTick(0);
+                setCurrentDirection(null);
             }   
         }
     });
