@@ -20,11 +20,12 @@ function App() {
 
   return (
     <div className="App">
+      <h1> react-three-fiber experiments </h1>
       <Canvas className="three-js-canvas" camera={{position: new THREE.Vector3(0,0,8)}}> 
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
-        {/* <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} /> */}
+        <Box position={[-1.2, 0, 0]} />
+        <Box position={[1.2, 0, 0]} />
         {xyPointsHorizontal.map(fromToArr => {
           const from = fromToArr[0];
           const to = fromToArr[1];
