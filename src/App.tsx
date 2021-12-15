@@ -27,7 +27,7 @@ function App() {
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         <Box position={[-1.2, 0, 0]} />
-        {/* <Box position={[1.2, 0, 0]} />
+        <Box position={[1.2, 0, 0]} />
         {xyPointsHorizontal.map(fromToArr => {
           const from = fromToArr[0];
           const to = fromToArr[1];
@@ -40,8 +40,8 @@ function App() {
         })}
 
         <MovingBox position={[1.5,1.5,0]} moveDistance={1} directions={["left", "left","up","down","left","down", "left"]}/>
-        <MovingBox position={[3.5,3.5,0]} moveDistance={1} directions={["left", "left","up","down","left","down", "left"]}/> */}
-        <axesHelper />
+        <MovingBox position={[3.5,3.5,0]} moveDistance={1} directions={["left", "left","up","down","left","down", "left"]}/>
+        {/* <axesHelper /> */}
       </Canvas>
     </div>
   );
