@@ -1,7 +1,9 @@
 import * as THREE from 'three'
 import ReactDOM from 'react-dom'
 import React, { useEffect, useRef, useState } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { useMeshJump } from './hooks/transformationHooks/useMeshJump';
+import { useMeshRotate90 } from './hooks/transformationHooks/useMeshRotate90';
 
 
 const left = {x: -0.2, y: 0};
@@ -23,10 +25,12 @@ export function Box(props: JSX.IntrinsicElements['mesh']) {
   const ref = useRef<THREE.Mesh>(null!)
   const [hovered, hover] = useState(false)
   const [clicked, click] = useState(false)
-  const [rotate90, shouldRotate90] = useState(false);
   const [keyPressed, setKeyPressed] = useState<string | null>(null);
-  const [jumping, jump] = useState<boolean>(false);
-  const [jumpVal, setJumpVal] = useState<number>(0);
+
+  const [rotate90, rotateMesh90UpdateFn] = useMeshRotate90("z");
+  const [jump, jumpMeshUpdateFn] = useMeshJump(4); 
+
+  const {camera} = useThree();
 
   useEffect(() => {
     window.addEventListener("keydown", (e) => {
@@ -42,17 +46,13 @@ export function Box(props: JSX.IntrinsicElements['mesh']) {
     });
   }, []);
 
-    useFrame((state, delta) => {
-        // console.log(state);
+    useFrame((state, delta) => {      
+        // camera.rotation.z += 0.002;
+        // camera.rotation.y += 0.002;
+
         // rotate render loop logic
-        if(rotate90 == true){
-            if(ref.current.rotation.x >= (Math.PI * 2) / 4){
-                shouldRotate90(false);
-                ref.current.rotation.x = 0;
-            }else{
-                ref.current.rotation.x += ((Math.PI * 2) / 4) / 30;
-            }
-        }
+        // @ts-ignore
+        rotateMesh90UpdateFn(ref);
 
         // move box render loop logic
         if(keyPressed){
@@ -62,17 +62,8 @@ export function Box(props: JSX.IntrinsicElements['mesh']) {
         }
 
         // bounce/jump render loop logic
-        if(jumping == true){
-            if(jumpVal >= Math.PI){
-                console.log("end flip");
-                jump(false);
-                setJumpVal(0);
-            }else{
-                setJumpVal(jumpVal + Math.PI / 30);
-                ref.current.position.z = Math.sin(jumpVal) * 1;
-            }
-        }
-
+        // @ts-ignore
+        jumpMeshUpdateFn(ref);
     });
 
   return (
@@ -82,7 +73,9 @@ export function Box(props: JSX.IntrinsicElements['mesh']) {
       scale={1}
       onClick={(event) => {
           click(!clicked); 
-          shouldRotate90(true);
+          // @ts-ignore
+          rotate90(true);
+          // @ts-ignore
           jump(true);
         }}
       onPointerOver={(event) => {

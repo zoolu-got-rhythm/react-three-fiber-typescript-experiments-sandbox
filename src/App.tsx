@@ -1,14 +1,16 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import { Box } from './Box';
 import { Line } from './Line';
 import * as THREE from 'three';
 import { MovingBox } from './MovingCube';
+import { AxesHelper } from 'three';
 
 
 function App() {
+
 
   // create grid
   let xyPointsHorizontal = [];
@@ -25,7 +27,7 @@ function App() {
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} />
+        {/* <Box position={[1.2, 0, 0]} />
         {xyPointsHorizontal.map(fromToArr => {
           const from = fromToArr[0];
           const to = fromToArr[1];
@@ -38,8 +40,8 @@ function App() {
         })}
 
         <MovingBox position={[1.5,1.5,0]} moveDistance={1} directions={["left", "left","up","down","left","down", "left"]}/>
-        <MovingBox position={[3.5,3.5,0]} moveDistance={1} directions={["left", "left","up","down","left","down", "left"]}/>
-
+        <MovingBox position={[3.5,3.5,0]} moveDistance={1} directions={["left", "left","up","down","left","down", "left"]}/> */}
+        <axesHelper />
       </Canvas>
     </div>
   );
